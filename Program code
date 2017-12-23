@@ -1,0 +1,82 @@
+HACKERRANK PROBLEM:
+Given N * M string array of O's and X's Return the number of 'X' total shapes. 'X' shape consists of one or more adjacent X's (diagonals not included). 
+Example (1):
+OOOXOOO 
+OXXXXXO
+OXOOOXO 
+ 
+answer is 1 , shapes are  : (i)     X
+                              X X X X
+                              X     X 
+
+SOLUTION:
+public class xcount {
+    
+    static int row,column;
+    static int visited[][];
+    public static void main(String []ar){
+        Scanner scan = new Scanner(System.in);
+        int num,count=0;
+        num=scan.nextInt();
+        while(num!=0){
+            --num;
+           // row=0;
+           // column=0;
+            row = scan.nextInt();
+            column = scan.nextInt();
+            char input[][] = new char [row][column];
+            for(int i=0;i<row;i++){
+                String word = scan.next();
+                for(int j=0;j<column;j++){
+                    input[i][j]=word.charAt(j);
+                }
+            }
+            
+      /*      for(int i=0;i<row;i++){
+                for(int j=0;j<column;j++){
+                    System.out.print(input[i][j]+" ");
+                }
+                System.out.print("\n");
+            }  */
+            visited = new int[row][column];
+           
+            for(int i=0;i<row;i++){
+                for(int j=0;j<column;j++){
+                    if(visited[i][j]==0 && input[i][j]=='X'){
+                    //    System.out.println(i+" in main "+j);
+                        dfs(input,i,j);
+                        ++count;
+                      //  System.out.println(count+"\n");
+                    }
+                }
+            }
+              System.out.println(count);
+        count =0;
+        }
+      
+    }
+    
+     static void dfs(char [][]a,int m,int n){
+        // System.out.println(visited[0][0]);
+         visited[m][n]=1;
+          // System.out.println(m+" at start "+n+"\n");
+         if(m+1<row && visited[m+1][n]==0 && a[m+1][n]=='X'){
+          //   System.out.println(m+" m+1 "+n+" ");
+             dfs(a,m+1,n);
+         }
+         if(m-1>=0 && visited[m-1][n]==0 && a[m-1][n]=='X'){
+             dfs(a,m-1,n);
+          //   System.out.println(m+" m-1 "+n);
+         }
+         if(n+1<column && visited[m][n+1]==0 && a[m][n+1]=='X'){
+          //   System.out.println(m+" n+1 "+n);
+             dfs(a,m,n+1);
+         }
+         if(n-1>=0 && visited[m][n-1]==0 && a[m][n-1]=='X'){
+          //   System.out.println(m+" n-1 "+n);
+             dfs(a,m,n-1);
+         }
+         
+        // System.out.println(m+" end "+n);
+    }
+}
